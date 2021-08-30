@@ -12,4 +12,6 @@ This is a full stack Project created by [Nupoor Dode](https://github.com/NupoorD
 8. Once the necessary packages are installed, run the command `ng serve`
 9. Open the project on localhost `http://localhost:4200/`
 
+## What does the project looks like ?
+![This is where you can design your marketing workflow](/project_images/5.PNG)
 
