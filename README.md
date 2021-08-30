@@ -1,5 +1,5 @@
 # Digital Marketing Simulator
-This is a full stack Project created by [Nupoor Dode](https://github.com/NupoorD) and [Aniket Singh](https://github.com/Bruces1998) as a part of their BE Project Angular, Gojs for frontend and Flask, Sqlite for backend.
+This is a full stack Project created by [Nupoor Dode](https://github.com/NupoorD) and [Aniket Singh](https://github.com/Bruces1998) as a part of their BE Project. It uses Angular, Gojs for frontend and Flask, Sqlite for backend.
 
 ## How to run it?
 1. Install the repository in your local machine.
@@ -11,4 +11,5 @@ This is a full stack Project created by [Nupoor Dode](https://github.com/NupoorD
 7. Inside this directory run the command `npm install`
 8. Once the necessary packages are installed, run the command `ng serve`
 9. Open the project on localhost `http://localhost:4200/`
+
 
