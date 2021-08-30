@@ -13,5 +13,6 @@ This is a full stack Project created by [Nupoor Dode](https://github.com/NupoorD
 9. Open the project on localhost `http://localhost:4200/`
 
 ## What does the project looks like ?
-![This is where you can design your marketing workflow](/project_images/5.PNG)
+### The canvas where you can design your workflows
+(/project_images/5.PNG)
 
