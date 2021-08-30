@@ -14,5 +14,5 @@ This is a full stack Project created by [Nupoor Dode](https://github.com/NupoorD
 
 ## What does the project looks like ?
 ### The canvas where you can design your workflows
-(/project_images/5.PNG)
+![Image](/project_images/5.PNG)
 
