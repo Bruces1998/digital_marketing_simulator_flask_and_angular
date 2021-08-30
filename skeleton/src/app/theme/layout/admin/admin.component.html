@@ -1,0 +1,397 @@
+<app-navigation class="pcoded-navbar" [ngClass]="{'navbar-collapsed' : navCollapsed, 'theme-horizontal': this.nextConfig['layout'] === 'horizontal', 'mob-open' : navCollapsedMob}" (onNavMobCollapse)="navMobClick()"></app-navigation>
+<app-nav-bar class="navbar pcoded-header navbar-expand-lg navbar-light" (onNavCollapse)="this.navCollapsed = !this.navCollapsed;" (onNavHeaderMobCollapse)="navMobClick()"></app-nav-bar>
+<div class="pcoded-main-container">
+  <div class="pcoded-content" [ngClass]="{'container': this.nextConfig.layout === 'horizontal' && this.nextConfig.subLayout === 'horizontal-2'}">
+    
+    <div class="row">
+      <div class="col">
+        <h3 style='display: inline'>My Projects</h3>
+      </div>
+      <div class="col-2">
+        <button class="btn btn-primary" (click)="createNewProjModal.show()" >Create New 
+          <i class='feathicon_white' data-feather="plus"></i>
+        </button>
+      </div>
+    </div>
+    
+    <br><br>
+    <!-- Create New Project -->
+    <app-ui-modal #createNewProjModal [hideFooter]="true" [containerClick]=false>
+      <div class="app-modal-header">
+        <h5 class="modal-title">Create New Project</h5>
+        <button type="button" class="close basic-close" aria-label="Close" (click)="createNewProjModal.hide()"><span aria-hidden="true">&times;</span></button>
+      </div>
+      <div class="app-modal-body container">
+        <form [formGroup]="newProjFormGroup" (ngSubmit)='addNewProj(newProjFormGroup.value)'>
+          <div class="form-group row">
+            <div class="col"><label for="newProjTitle" class='formLabel'>Name </label></div>
+            <div class="col"><input name="newProjTitle" type="text" class="form-control" id="projName" placeholder="Name" formControlName='newProjName'></div>
+          </div> 
+          <div class="form-group row">
+            <div class="col"><label class='formLabel'>Domain</label></div>
+            <div class="col">
+            <select class="form-control formSelect" formControlName='newProjDomain'>
+              <option>--Select--</option>
+              <option>Clothing</option>
+              <option>Electronics</option>
+              <option>Education</option>
+              <option>Food</option>
+              <option>Lifestyle</option>
+            </select>
+            </div>
+          </div>
+          <!-- <div class="form-group row">
+            <div class="col"><label class='formLabel'>Overall Budget</label></div>
+            <div class="col"><input class="form-control" type="number" placeholder="Give a Budget in Dollars"></div>
+          </div> -->
+          <!-- <div class="form-group row">
+            <div class="col"><label class='formLabel'>Target Age Group   </label></div>
+            <div class="col">
+              <select class="form-control formSelect" formControlName='newProjTargetAge'>
+                <option>--All--</option>
+                <option>30-34</option>
+                <option>35-39</option>
+                <option>40-44</option>
+                <option>45-49</option>
+              </select>
+            </div>
+          </div>
+          <div class="form-group row">
+            <div class='col-6'><label class='formLabel'>Target Audience   </label></div>
+            <input type='checkbox' class="form-control col" formControlName='isMale'><label>Male</label>
+            <input type='checkbox' class="form-control col" formControlName='isFemale'><label>Female</label>
+          </div> -->
+          <!-- </div> -->
+          <button type="submit" (click)="createNewProjModal.hide()" class="btn btn-primary">Save</button>
+        </form>
+      </div>
+    </app-ui-modal>
+
+    <!-- Rename Project -->
+    <app-ui-modal #renameProjModal [hideFooter]="true" [containerClick]=false>
+      <div class="app-modal-header">
+        <h5 class="modal-title">Rename Project</h5>
+        <button type="button" class="close basic-close" aria-label="Close" (click)="renameProjModal.hide()"><span aria-hidden="true">&times;</span></button>
+      </div>
+      <div class="app-modal-body">
+        <form [formGroup]="renameProjFormGroup" (ngSubmit)='renameProj(renameProjFormGroup.value)'>
+          <div class="form-group">
+            <label for="renamedProjTitle" class="formLabel">New Name </label>
+            <input name="renamedProjTitle" type="text" class="form-control" id="renamedProjName" placeholder="Name" formControlName='renamedProjName'>
+          </div>
+          <button type="submit" class="btn btn-primary" (click)="renameProjModal.hide()">Save</button>
+        </form>
+      </div>
+    </app-ui-modal>
+
+    <!-- Project List -->
+      <div>
+        <div *ngFor="let project of projects" class='row projList'>
+          <div class='col'>
+            <a href="#" class="projName" data-toggle="modal" data-target="#SimulatorModal" (click)='loadProject(project.id,project.name)'>{{project.name}}</a>
+          </div>
+          <div class='col-2'><button class="btn btn-outline-secondary" (click)="deleteProject(project.id)"> Delete </button></div>
+          <div class='col-2'><button class="btn btn-outline-secondary" (click)="setRenameId(project.id,project.name); renameProjModal.show()"> Rename </button></div>
+        </div>
+      </div>
+
+        <router-outlet></router-outlet>
+
+        <div class="modal fade" id="SimulatorModal" tabindex="-1" role="dialog" aria-hidden="true">
+          <div class="modal-dialog" role="document" id="mainModalDialog" [ngClass]="mainModalMax ? 'mainModalMaximized' : 'mainModalMinimized'">
+            <div class="modal-content">
+              <div class="modal-header" id="simulatorModalHeader">
+                <h3 class="modal-title">{{PROJECT_NAME}}</h3>
+                <button type="button" class="maximize" id= "maxmin" aria-label="maximize" (click)="maximize()"><i data-feather="maximize" id="maximizeIcon"></i></button>
+                <button type="button" class="close" id="close" data-dismiss="modal" aria-label="Close" (click)="sendCanvas()">
+                  <span aria-hidden="true">&times;</span>
+                </button>
+              </div>
+              <div class="modal-body">
+                <app-card [hidHeader]='true'>
+                  <div>
+                    <div id='toolbar' class='row'>
+                      <div id='alignIcons'>                    
+                      <div id='paletteIcons'>
+                        <span class='toolBarIcon' (click)="paletteToggle()" placement="bottom" ngbTooltip="Palette" tooltipClass="edge-my-custom-class">
+                          <img src='../../assets/imgs/color-palette-outline.svg' class="feathicon" >
+                        </span>
+                        <span class='toolBarIcon' placement="bottom" ngbTooltip="Add Element" tooltipClass="edge-my-custom-class" (click)="addElemModal.show()" >
+                          <i class='feathicon' data-feather="plus-square"></i>
+                        </span>
+                      </div>
+                      <div id='canvasIcons'>
+                        <span class='toolBarIcon' (click)="gridToggle()" placement="bottom" ngbTooltip="Grid" tooltipClass="my-custom-class">
+                          <i class='feathicon' data-feather="grid" ></i>
+                        </span>
+                        <span class='toolBarIcon' (click)="alignToggle()" placement="bottom" ngbTooltip="Align" tooltipClass="my-custom-class">
+                          <i class='feathicon' data-feather="align-justify" ></i>
+                        </span>
+                        <span class='toolBarIcon' (click)="zoomIn()" placement="bottom" ngbTooltip="Zoom In" tooltipClass="my-custom-class">
+                          <i class='feathicon' data-feather="zoom-in" ></i>
+                        </span>
+                        <span class='toolBarIcon' (click)="zoomOut()" placement="bottom" ngbTooltip="Zoom Out" tooltipClass="my-custom-class">
+                          <i class='feathicon' data-feather="zoom-out" ></i>
+                        </span>
+                        <span class='toolBarIcon' (click)="undoChanges()" placement="bottom" ngbTooltip="Undo" tooltipClass="my-custom-class">
+                          <i class='feathicon' data-feather="rotate-ccw" ></i>
+                        </span>
+                        <span class='toolBarIcon' (click)="redoChanges()" placement="bottom" ngbTooltip="Redo" tooltipClass="my-custom-class">
+                          <i class='feathicon' data-feather="rotate-cw" ></i>
+                        </span>
+                        <span class='toolBarIcon' (click)="copySelect()" placement="bottom" ngbTooltip="Copy" tooltipClass="my-custom-class">
+                          <i class='feathicon' data-feather="copy" ></i>
+                        </span>
+                        <span class='toolBarIcon' (click)="pasteSelect()" placement="bottom" ngbTooltip="Paste" tooltipClass="my-custom-class">
+                          <i class='feathicon' data-feather="clipboard" ></i>
+                        </span>
+                        <span class='toolBarIcon' (click)="deleteSelect()" placement="bottom" ngbTooltip="Delete" tooltipClass="my-custom-class">
+                          <i class='feathicon' data-feather="x-square" ></i>
+                        </span>
+                        <span class='toolBarIcon' (click)="clearCanvas()" placement="bottom" ngbTooltip="Clear Canvas" tooltipClass="my-custom-class">
+                          <i class='feathicon' data-feather="trash" ></i>
+                        </span>
+                        <span class='toolBarIcon' (click)="overviewPositionChange()" placement="bottom" ngbTooltip="Overview Position" tooltipClass="my-custom-class">
+                          <i class='feathicon' data-feather="layout" ></i>
+                        </span>
+                        <span class='toolBarIcon' placement="bottom" ngbTooltip="Export Canvas" tooltipClass="my-custom-class" (click)="exportCanvasModal.show()">
+                          <i class='feathicon' data-feather="download"></i>
+                        </span>
+                        <span class='toolBarIcon' placement="bottom" ngbTooltip="Choose Template" tooltipClass="my-custom-class" (click)="chooseTemplateModal.show()">
+                          <i class='feathicon' data-feather="archive"></i>
+                        </span>
+                        <span class='toolBarIcon' placement="bottom" ngbTooltip="Save As Template" tooltipClass="my-custom-class" (click)="saveAsTempModal.show()">
+                          <i class='feathicon' data-feather="plus"></i>
+                        </span>
+                      </div>
+                      <div id='resultIcons'>
+                        <!-- <span class='toolBarIcon' (click)="elemFormToggle()" placement="bottom" ngbTooltip="Element Editor" tooltipClass="edge-my-custom-class">
+                          <i class='feathicon'data-feather="edit" ></i>
+                        </span> -->
+                        <span class='toolBarIcon' placement="bottom" ngbTooltip="Results" tooltipClass="edge-my-custom-class" (click)="resultsModal.show(); getResult()">
+                          <i class='feathicon'data-feather="bar-chart-2" ></i>
+                        </span>
+                      </div>
+                      </div>
+                    </div>
+                  </div>
+
+                  <!-- Save As Template -->
+                  <app-ui-modal #saveAsTempModal [hideFooter]="true" [containerClick]=false>
+                    <div class="app-modal-header">
+                      <h5 class="modal-title">Save As Template</h5>
+                      <button type="button" class="close basic-close" aria-label="Close" (click)="saveAsTempModal.hide()"><span aria-hidden="true">&times;</span></button>
+                    </div>
+                    <div class="app-modal-body">
+                      <form [formGroup]="newTempFormGroup" (ngSubmit)='addNewTemp(newTempFormGroup.value)'>
+                        <div class="form-group">
+                          <label for="newTempTitle" class='formLabel'>Name</label>
+                          <input name="newTempTitle" type="text" class="form-control" id="tempName" placeholder="e.g. Facebook Marketing Funnel" formControlName='newTempName'>
+                        </div> 
+                        <button type="submit" (click)="saveAsTempModal.hide()" class="btn btn-primary"><i class='feathicon_white' data-feather="save" ></i></button>
+                      </form>
+                    </div>
+                  </app-ui-modal>
+
+                  <!-- Adding new Element -->
+                  <app-ui-modal #addElemModal [hideFooter]="true" [containerClick]=false>
+                    <div class="app-modal-header">
+                      <h5 class="modal-title">Add New Element</h5>
+                      <button type="button" class="close basic-close" aria-label="Close" (click)="addElemModal.hide()"><span aria-hidden="true">&times;</span></button>
+                    </div>
+                    <div class="app-modal-body">
+                      <form  [formGroup]="newElemFormGroup" (ngSubmit)='addNew(newElemFormGroup.value)'>
+                        <div class="form-group">
+                          <label for="newElemTitle" class='formLabel'>Name</label>
+                          <input name = "newElemTitle" type="text" class="form-control" id="newElemTitle" placeholder="Name your Element" formControlName='newElemTitle'>
+                        </div>
+                        <div class="form-group">
+                          <label for="newElemImage" class='formLabel'>Image</label>
+                          <input name = "newElemImage" type="text" class="form-control" id="newElemImage" placeholder="Enter an Image URL" formControlName='newElemImage'>
+                        </div>
+                        <button type="submit" class="btn btn-primary" (click)="addElemModal.hide()"><i class='feathicon_white' data-feather="save" ></i></button>
+                      </form>
+                    </div>
+                  </app-ui-modal>
+
+                  <!-- Choose Template -->
+                  <app-ui-modal #chooseTemplateModal [hideFooter]="true" [containerClick]=false>
+                    <div class="app-modal-header">
+                      <h5 class="modal-title">Choose a Template</h5>
+                      <button type="button" class="close basic-close" aria-label="Close" (click)="chooseTemplateModal.hide()"><span aria-hidden="true">&times;</span></button>
+                    </div>
+                    <div class="app-modal-body">
+                      <ngb-carousel [interval]="false">
+                        <ng-template ngbSlide *ngFor="let template of templates">
+                          <img class="d-block w-100 templateImg" src={{template.url}}>
+                          <div class="carousel-caption carouselCaption d-none d-md-block">
+                            <a href="#" (click)="$event.preventDefault()">
+                              <h5 class="text-white">{{template.name}}</h5>
+                              <button class="btn btn-outline-light" (click)='chooseTemplateModal.hide(); useTemplate(template.id)'>Use This Template</button>
+                            </a>
+                          </div>
+                        </ng-template>
+                      </ngb-carousel>
+                    </div>
+                  </app-ui-modal>
+
+                  <!-- Export Canvas -->
+                  <app-ui-modal #exportCanvasModal [hideFooter]="true" [containerClick]=false>
+                    <div class="app-modal-header">
+                      <h5 class="modal-title">Export As</h5>
+                      <button type="button" class="close basic-close" aria-label="Close" (click)="exportCanvasModal.hide()"><span aria-hidden="true">&times;</span></button>
+                    </div>
+                    <div class="app-modal-body">
+                      <button class="btn btn-outline-primary btn-lg exportOptions" (click)="exportAsJpg()">JPG</button>
+                      <button class="btn btn-outline-primary btn-lg exportOptions" (click)="exportAsPng()">PNG</button>
+                      <button class="btn btn-outline-primary btn-lg exportOptions" (click)="exportCanvasModal.hide(); exportAsPdfModal.show()">PDF</button>
+                    </div>
+                  </app-ui-modal>
+
+                  <!-- Export Pdf -->
+                  <app-ui-modal #exportAsPdfModal [hideFooter]="true" [dialogClass]="'modal-lg'" [containerClick]=false>
+                    <div class="app-modal-header">
+                      <h5 class="modal-title">Pdf Editor</h5>
+                      <button type="button" class="close basic-close" aria-label="Close" (click)="exportAsPdfModal.hide()"><span aria-hidden="true">&times;</span></button>
+                    </div>
+                    <div class="app-modal-body">
+                      <div class="container">
+                        <div class="row">
+
+                          <div class="col-5">
+                            <form [formGroup]="exportAsPdfFormGroup" (ngSubmit)='exportAsPdf(exportAsPdfFormGroup.value)'>
+                              <div class="container"> 
+                                <label for="" class='formLabel'><strong>Orientation</strong></label>
+                                <div class="form-group row">
+                                    <label class='formLabel col'><input type="radio" formControlName="orientation" name="orientation" value='portrait'checked> Portrait</label>
+                                    <label class='formLabel col'><input type="radio" formControlName="orientation" name="orientation" value='landscape'> Landscape</label>
+                                </div>
+                                <div class="form-group row">
+                                  <div class="col-3">
+                                    <label for="" class='formLabel'><b>Title</b></label>
+                                  </div>
+                                  <div class="col-9">
+                                    <input type="text" class="form-control" placeholder='Title text' formControlName="titleText">
+                                  </div>
+                                </div>
+                                <div class="form-group row">
+                                  <div class="btn-group btn-group-toggle col-6">
+                                    <label class="btn-light pdfTitleDecOption" ngbButtonLabel>
+                                      <input type="checkbox" ngbButton formControlName="titleBold">
+                                      <i class='feathicon' data-feather="bold"></i>
+                                    </label>
+                                    <label class="btn-light pdfTitleDecOption" ngbButtonLabel>
+                                      <input type="checkbox" ngbButton formControlName="titleItalic">
+                                      <i class='feathicon' data-feather="italic"></i>
+                                    </label>
+                                  </div>
+                                  <div class="btn-group btn-group-toggle col-6" ngbRadioGroup name="radioBasic">
+                                    <label ngbButtonLabel class="btn-light pdfTitleDecOption">
+                                      <input ngbButton type="radio" name="titleAlignment" formControlName="titleAlignment" value='left'> 
+                                      <i class='feathicon' data-feather="align-left"></i>
+                                    </label>
+                                    <label ngbButtonLabel class="btn-light pdfTitleDecOption">
+                                      <input ngbButton type="radio" name="titleAlignment" formControlName="titleAlignment" value="center"> 
+                                      <i class='feathicon' data-feather="align-center"></i>
+                                    </label>
+                                    <label ngbButtonLabel class="btn-light pdfTitleDecOption">
+                                      <input ngbButton type="radio" name="titleAlignment" formControlName="titleAlignment" value="right">
+                                      <i class='feathicon' data-feather="align-right"></i>
+                                    </label>
+                                  </div>
+                                </div>
+                                <div class="form-group">
+                                  <label class="formLabel"><b>Canvas Image</b></label>
+                                  <br>
+                                    <div class="row">
+                                      <div class="col">
+                                        <label for="" class="formLabel">Width</label>
+                                        <br>
+                                        <input type="number" class="form-control pdfCanvasInput" id="" placeholder='Default: 190' formControlName="cnvWidth">
+                                      </div>
+                                      <div class="col">
+                                        <label for="" class="formLabel">Height</label>
+                                        <br>
+                                        <input type="number" class="form-control pdfCanvasInput" id="" placeholder='Default: 150' formControlName="cnvHeight">
+                                      </div>
+                                    </div>
+                                    <div class="row">
+                                      <div class="col">
+                                        <label for="" class="formLabel">Left Offset</label>
+                                        <br>
+                                        <input type="number" class="form-control pdfCanvasInput" id="" formControlName="cnvLeftOffset">
+                                      </div>
+                                      <div class="col">
+                                        <label for="" class="formLabel">Background</label>
+                                        <br>
+                                        <input type="color" class="form-control pdfCanvasInput" id="" formControlName="cnvBackgroundcolor">
+                                      </div>
+                                    </div>
+                                </div>
+                                <div class="row">
+                                  <button type="submit" class="btn btn-primary col">Preview</button>
+                                </div>
+                              </div>
+                            </form>
+                          </div>
+                          <div class="col-7">
+                            <div id="iframeContainer">
+                              <iframe id="pdfPreviewIframe"></iframe>
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  </app-ui-modal>
+          
+                  <!-- Results -->
+                  <app-ui-modal #resultsModal [hideFooter]="true" [containerClick]=false>
+                    <div class="app-modal-header">
+                      <h5 class="modal-title">Results</h5>
+                      <button type="button" class="close basic-close" aria-label="Close" (click)="resultsModal.hide();loadResult()"><span aria-hidden="true">&times;</span></button>
+                    </div>
+                    <div class="app-modal-body">
+                      <div *ngIf='resultLoading'>
+                        <div class="d-flex justify-content-center">
+                          <div class="spinner-border text-primary" role="status">
+                            <span class="sr-only">Loading...</span>
+                          </div>
+                        </div>
+                      </div>
+                      <div id='resultSection' *ngIf='!resultLoading'>
+                        <app-card cardTitle="Clicks and Impressions" id='clicksImpressions' [options]="false">
+                          <app-apex-chart chartID="clicks-impressions-analytics" [chartConfig]="chartData" [newData]="this.test"></app-apex-chart>
+                        </app-card>
+                        <app-card cardTitle="Approximate Customers Gained" id='conversionCard' [options]="false">
+                          <!-- <p>Approximate Customers Gained</p> -->
+                          <h1 style="text-align:center">{{conversions}}</h1>
+                        </app-card>
+                      </div>
+                    </div>
+                  </app-ui-modal>
+
+                  <div id='paletteContainer' [ngClass]="hidePalette ? 'hide' : 'show'">
+                    <gojs-palette #myPalette [initPalette]='initPalette' [divClassName]='paletteDivClassName' [nodeDataArray]='paletteNodeData' [linkDataArray]='paletteLinkData' [modelData]='paletteModelData' (modelChange)='paletteModelChange($event)'></gojs-palette>
+                  </div>
+      
+                  <div id='canvasContainer' [ngClass]="mainModalMax ? 'canvasMaximized' : 'canvasMinimized'">
+                    <gojs-diagram #myDiagram [initDiagram]='initDiagram' [nodeDataArray]='diagramNodeData' [linkDataArray]='diagramLinkData'
+                    [divClassName]='diagramDivClassName' [modelData]='diagramModelData' [skipsDiagramUpdate]='skipsDiagramUpdate'
+                    (modelChange)='diagramModelChange($event)'>
+                    </gojs-diagram>
+                    <gojs-overview #myOverview [initOverview]='initOverview' [divClassName]='oDivClassName' [observedDiagram]='observedDiagram' [ngClass]="{'br':overviewPos==1,'bl':overviewPos==2,'tl':overviewPos==3,'tr':overviewPos==4}"></gojs-overview>
+                  </div>
+        
+                  <!-- <div id='elemEditorContainer' [ngClass]="hideElemForm ? 'hide' : 'show'"> -->
+                    <app-element-editor [selectedNode]='selectedNode' [selectedLink]='selectedLink' [projectId]="PROJECT_ID" (onFormChange)='handleInspectorChange($event)'></app-element-editor>
+                  <!-- </div> -->
+
+                </app-card>
+              </div>
+            </div>
+          </div>
+        </div>
+
+  </div>
+</div>
+<app-configuration></app-configuration>

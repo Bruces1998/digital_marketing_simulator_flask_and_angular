@@ -1,0 +1,82 @@
+<div id='elemEditorContainer' [ngClass]="selectedNode ? 'show' : 'hide'">
+<div id='elemFormContainer' class='show left'>
+  <div id='elemForm'>
+    <!-- <p style="font-size: 1.5em; color: black">Element Editor</p> -->
+    <h3>{{data.elemName}}</h3>
+    <!-- <form id=elemFormAlign (ngSubmit)='onCommitForm()'> -->
+    <form id=elemFormAlign [formGroup]="elemDetailsFormGroup" (ngSubmit)="sendDetails(elemDetailsFormGroup.value)">
+      <div class="form-group">
+        <label class='elemFormLabel'>
+          Budget 
+        </label>
+        <input type="text" class="form-control elemFormInput" placeholder="In $USD" formControlName='elemBudget'>      
+      </div>
+      <div class="form-group">
+        <div class="form-group"><label class='formLabel'>Target Age Group   </label></div>
+        <div class="form-group">
+          <select class="form-control formSelect" formControlName='elemTargetAge'>
+            <option>--All--</option>
+            <option>30-34</option>
+            <option>35-39</option>
+            <option>40-44</option>
+            <option>45-49</option>
+          </select>
+        </div>
+      </div>
+      
+      <div class="form-group">
+        <div class=''><label class='elemFormLabel'>Target Audience   </label></div>
+        <input type='checkbox' class="form-control elemFormInput" formControlName='elemIsMale'><label>Male</label>
+        <input type='checkbox' class="form-control elemFormInput" formControlName='elemIsFemale'><label>Female</label>
+      </div>
+      <!-- <div class="form-group">
+        <label class='elemFormLabel'>
+          Name 
+        </label>
+        <input type="text" class="form-control elemFormInput" placeholder="Default" [(ngModel)]='data.elemName' name='elemName'>      
+      </div>
+      <div class="form-group">
+        <label class='elemFormLabel' style="display:none;">
+          Image URL 
+        </label>
+        <input type="text" class="form-control elemFormInput" placeholder="URL" [(ngModel)]='data.elem' name='elem'  style="display:none;">
+      </div>
+      <div class="form-group">
+        <label  class='elemFormLabel'>Target Clicks</label>
+        <br>
+        <input class="elemFormInput" type="number">
+      </div>
+      <div class="form-group">
+        <label  class='elemFormLabel'>Target Impressions</label>
+        <br>
+        <input type="number" class="elemFormInput">
+      </div>
+      <div class="form-group">
+        <label class="elemFormLabel">Duration</label>
+        <br>
+        <select class="elemFormInput">
+          <option>Day</option>
+          <option>Month</option>
+          <option>Year</option>
+        </select>
+      </div> -->
+      <button type="submit" class="btn btn-primary elemFormBtn"><img src="../../assets/imgs/save.svg"></button>
+      <button type="reset" class="btn btn-light elemFormBtn"><img src="../../assets/imgs/refresh-cw.svg"></button>
+    </form>
+
+    <div *ngIf='selectedLink'>
+      <form id='' *ngIf='selectedLink' (ngSubmit)='onCommitForm()'>
+        <label class='elemFormLabel'>
+          Link Label 
+        </label>
+        <input type="text" class="form-control elemFormInput" placeholder="Default" [(ngModel)]='data.elemName' name='elemName'>
+      </form>
+    </div>
+    
+    <!-- <div *ngIf='!selectedNode && !selectedLink' id='elemFormMsg'>
+    <i data-feather="mouse-pointer" id='pointer'></i>
+      Select an Element to Edit
+    </div> -->
+  </div>
+</div>
+</div>

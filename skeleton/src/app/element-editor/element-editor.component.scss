@@ -1,0 +1,80 @@
+#elemEditorContainer{
+    position: absolute;
+    /* left: 1235; */
+    right: 2.5%;
+    top: 85px;
+    // width: 16%;
+    z-index: 300;
+    height: 81%;
+    background-color: rgb(256, 256, 256);
+    border: 1px solid rgba(93, 123, 137,0.5);
+    border-radius: 5px;
+    transition: opacity 0.5s ease, width 0.2s ease;
+
+}
+#elemFormContainer{
+    /* position: absolute; */
+    /* left: 1235; */
+    /* right: 2%; */
+    /* top: 25px; */
+    width: 100%;
+    z-index: 300;
+    height: 550px;
+
+}
+
+#elemForm{
+    /* background-color: whitesmoke; */
+    /* border: 1px solid black; */
+    height: 100%;
+    width: 100%;
+    margin: auto;
+    display: inline-block;
+    // background-color: #f5f6f6;
+    // border: 1px solid black;
+    /* float:left; */
+}
+
+#elemFormAlign{
+  margin: 20px 10px 20px 0px;
+}
+
+#elemFormMsg{
+  // margin: 50px auto;
+  font-size:0.85em;
+  color: black;
+}
+
+.elemFormLabel{
+  font-size: 0.9em;
+  color: black;
+}
+
+.elemFormInput{
+  padding: 0.5em;
+  height: auto;
+  width: 170px;
+  font-size: 0.9em;
+  border: 1px solid rgba(93, 123, 137, 0.5);
+}
+
+.elemFormBtn img{
+  width: 16px;
+  height: 16px
+} 
+
+.elemFormBtn.btn-light{
+  border: 1px solid rgba(93, 123, 137, 0.5);
+  margin-left: 3%
+}
+
+.feathicon{
+  width: 20px;
+  height: 20px;
+  color: rgba(50, 65, 72, 0.8);
+}
+
+#pointer{
+  width: 48px;
+  height: 48px;
+}

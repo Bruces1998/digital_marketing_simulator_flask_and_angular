@@ -1,0 +1,157 @@
+Horizontal Bar Graph
+{
+    chart: {
+    height: 150,
+    type: 'bar',
+    },
+    plotOptions: {
+    bar: {
+        horizontal: true,
+        dataLabels: {
+        position: 'top',
+        },
+    }
+    },
+    colors: ['#00acf0', '#0e9e4a'],
+    dataLabels: {
+    enabled: true,
+    offsetX: -6,
+    style: {
+        fontSize: '12px',
+        colors: ['#fff']
+    }
+    },
+    stroke: {
+    show: true,
+    width: 1,
+    colors: ['#fff']
+    },
+    series: [{
+    name: "Impressions",
+    data: [this.ResultList['data'][0]['impressions']]
+    }, {
+    name: "Clicks",
+    data: [this.ResultList['data'][0]['clicks']]       
+    }],
+    xaxis: {
+    categories: ['Facebook'],
+    labels: {
+        style: {
+        fontSize: '10px'
+        }
+    }
+    },
+}
+
+Radial Chart
+{
+    chart: {
+    height: 350,
+    type: 'radialBar',
+    },
+    dataLabels: {
+    enabled: false
+    },
+    plotOptions: {
+    radialBar: {
+        offsetY: -30,
+        startAngle: 0,
+        endAngle: 270,
+        hollow: {
+        margin: 5,
+        size: '30%',
+        background: 'transparent',
+        image: undefined,
+        },
+        dataLabels: {
+        name: {
+            show: false,
+
+        },
+        value: {
+            show: false,
+        }
+        }
+    }
+    },
+    colors: ['#00acf0', '#0e9e4a'],
+    series: this.results,
+    labels: ['Impressions', 'Clicks'],
+    legend: {
+    show: true,
+    floating: true,
+    fontSize: '14px',
+    position: 'left',
+    offsetX: 0,
+    offsetY: 0,
+    labels: {
+        useSeriesColors: true,
+    },
+    markers: {
+        size: 0
+    },
+    formatter: (seriesName, opts) => seriesName + ':  ' + opts.w.globals.series[opts.seriesIndex],
+    itemMargin: {
+        horizontal: 1,
+    }
+    },
+    responsive: [{
+    breakpoint: 480,
+    options: {
+        legend: {
+        show: false
+        }
+    }
+    }]
+}
+Horizontal Stacked Bar Graph
+{
+    chart: {
+    height: 250,
+    type: 'bar',
+    stacked: true,
+    toolbar: {
+        show: true
+    },
+    zoom: {
+        enabled: true
+    }
+    },
+    dataLabels: {
+    enabled: false
+    },
+    colors: ['#00acf0', '#0e9e4a'],
+    responsive: [{
+    breakpoint: 480,
+    options: {
+        legend: {
+        position: 'bottom',
+        offsetX: -10,
+        offsetY: 0
+        }
+    }
+    }],
+    plotOptions: {
+    bar: {
+        horizontal: true,
+    },
+    },
+    series: [{
+    name: 'Impressions',
+    data: [this.ResultList['data'][0]['impressions']]
+    }, 
+    {
+    name: 'Clicks',
+    data: [this.ResultList['data'][0]['clicks']]
+    }],
+    xaxis: {
+    categories: ['Facebook'],
+    },
+    legend: {
+    position: 'bottom',
+    offsetY: 40
+    },
+    fill: {
+    opacity: 1
+    }
+}
