@@ -16,3 +16,5 @@ This is a full stack Project created by [Nupoor Dode](https://github.com/NupoorD
 ### The canvas where you can design your workflows
 ![Image](/project_images/5.PNG)
 
+## Checkout the paper related to our project
+[Here](https://www.ijascs.com/volume-1)
