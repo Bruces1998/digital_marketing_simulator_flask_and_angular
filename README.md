@@ -26,7 +26,7 @@ and ROI of any sales or marketing funnel before making any major marketing decis
 tool aims to help businesses devise and test marketing strategies which in turn saves time &
 money.
 ## System Design
-![Image](project_images/Screenshot from 2021-09-03 23-23-38.png)
+![Image](project_images/system_design.png)
 
 ### The canvas where you can design your workflows
 ![Image](/project_images/5.PNG)
