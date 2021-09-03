@@ -21,10 +21,12 @@ and advertising are also incredibly important to a company’s internal solidari
 outreach, and overall success. It’s hard to overstate the importance of marketing. Every type of
 business can benefit from the increased sales and heightened brand awareness that a great
 marketing campaign can offer.
-The proposed Digital Marketing Simulator helps businesses quickly model & simulate the workflow
+The proposed `Digital Marketing Simulator` helps businesses quickly model & simulate the workflow
 and ROI of any sales or marketing funnel before making any major marketing decisions. This
 tool aims to help businesses devise and test marketing strategies which in turn saves time &
 money.
+## System Design
+
 ### The canvas where you can design your workflows
 ![Image](/project_images/5.PNG)
 
