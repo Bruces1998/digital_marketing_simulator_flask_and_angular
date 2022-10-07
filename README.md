@@ -31,4 +31,4 @@ money.
 ### The canvas where you can design your workflows
 ![Image](/project_images/5.PNG)
 
-## Checkout the paper related to our project->[Here](https://www.ijascs.com/volume-1)
+## Checkout the paper related to our project->[Here](https://www.preprints.org/manuscript/202105.0074/v1)
